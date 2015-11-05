@@ -1,0 +1,3 @@
+/*
+Script test file
+*/
