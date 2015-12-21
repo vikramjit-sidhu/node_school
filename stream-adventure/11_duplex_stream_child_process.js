@@ -9,21 +9,19 @@ duplex stream.
 This duplex stream is to then be returned from this file using module.exports
 */
 
-// This is the module which is required to create a new process
 var spawn = require('child_process').spawn;
 
+// Duplex module is used to join a read and write stream into a duplex stream
+var duplexer = require('duplexer')
 
-// this is exported for a function to call
 module.exports = function(cmd, args) {
 	// this is the process that is created to be run, cmd = dir or equivalent
-	// args are the additional arguments associated with it
 	// the options are additional check reference for it
-	var child = spawn(cmd, args), {
+	var child = spawn(cmd, args, {
 			stdio: ['pipe', 'pipe', 'pipe']
 	});
 	
 	// combining the stdin and stdout of the the child process
-	
-
-	
+	var combinedReadWriteStream = duplexer(child.stdin, child.stdout);
+	return combinedReadWriteStream;
 }
